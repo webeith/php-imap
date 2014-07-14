@@ -304,6 +304,30 @@ class ImapMailbox
     }
 
     /**
+     * Fetch mail message_id
+     *
+     * @param integer $mailId
+     *
+     * @return string
+     */
+    public function getMailMessageId($mailId)
+    {
+        $mail = imap_fetch_overview($this->getImapStream(), $mailId, FT_UID);
+
+        if (empty($mail)) {
+            return null;
+        }
+
+        preg_match('~<(.*)>~', $mail[0]->message_id, $output);
+
+        if (!isset($output[1])) {
+            return null;
+        }
+
+        return $output[1];
+    }
+
+    /**
      * Get information about the current mailbox.
      *
      * Returns an object with following properties:
