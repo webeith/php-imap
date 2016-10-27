@@ -50,7 +50,7 @@ class ImapMailbox
 
     protected function initImapStream()
     {
-        $imapStream = @imap_open($this->imapPath, $this->login, $this->password);
+        $imapStream = @imap_open($this->imapPath, $this->login, $this->password, 0, 0, array('DISABLE_AUTHENTICATOR' => 'GSSAPI'));
         if (!$imapStream) {
             throw new ImapMailboxException('Connection error: ' . imap_last_error());
         }
